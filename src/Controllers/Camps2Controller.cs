@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace CoreCodeCamp.Controllers
 {
+    //[Route("api/v{version:apiVersion}/camps")]
     [Route("api/camps")]
     [ApiVersion("2.0")]
     [ApiController]

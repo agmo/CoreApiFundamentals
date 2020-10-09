@@ -30,6 +30,7 @@ namespace CoreCodeCamp
           o.ReportApiVersions = true;
           o.DefaultApiVersion = new ApiVersion(1, 0);
           o.AssumeDefaultVersionWhenUnspecified = true;
+          //o.ApiVersionReader = new UrlSegmentApiVersionReader();
           o.ApiVersionReader = ApiVersionReader.Combine(
                new HeaderApiVersionReader("X-Version"),
                new QueryStringApiVersionReader("ver", "version")
