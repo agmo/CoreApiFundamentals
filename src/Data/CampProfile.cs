@@ -17,7 +17,9 @@ namespace CoreCodeCamp.Data
                 .ReverseMap();
 
             CreateMap<Talk, TalkModel>()
-                .ReverseMap();
+                .ReverseMap()
+                .ForMember(t => t.Speaker, o => o.Ignore())
+                .ForMember(t => t.Camp, o => o.Ignore());
 
             CreateMap<Speaker, SpeakerModel>()
                 .ReverseMap();
