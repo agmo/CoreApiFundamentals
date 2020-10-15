@@ -58,6 +58,29 @@ namespace CoreCodeCamp.Controllers
             }
         }
 
-        
+        [HttpPost]
+        public async Task<ActionResult<SpeakerModel>> Post(SpeakerModel model)
+        {
+            try
+            {
+                var speaker = _mapper.Map<Speaker>(model);
+                _repository.Add(speaker);
+
+                if (await _repository.SaveChangesAsync())
+                {
+                    var url = _linkGenerator.GetPathByAction("Get", "Speakers", values: new { id = speaker.SpeakerId });
+
+                    return Created(url, _mapper.Map<SpeakerModel>(speaker));
+                } else
+                {
+                    return BadRequest();
+                }
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
+            }
+            
+        }
     }
 }
