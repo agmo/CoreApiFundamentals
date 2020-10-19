@@ -82,5 +82,31 @@ namespace CoreCodeCamp.Controllers
             }
             
         }
+
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                var speaker = await _repository.GetSpeakerAsync(id);
+                if (speaker == null) return NotFound();
+
+                _repository.Delete(speaker);
+
+                if (await _repository.SaveChangesAsync())
+                {
+                    return Ok();
+                } else
+                {
+                    return BadRequest("Failed to delete the speaker.");
+                }
+
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
+                throw;
+            }
+        }
     }
 }
