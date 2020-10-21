@@ -108,5 +108,28 @@ namespace CoreCodeCamp.Controllers
                 throw;
             }
         }
+
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult<SpeakerModel>> Put(int id, SpeakerModel model)
+        {
+            try
+            {
+                var oldSpeaker = await _repository.GetSpeakerAsync(id);
+                if (oldSpeaker == null) return BadRequest($"Could not find speaker for {id}");
+
+                _mapper.Map(model, oldSpeaker);
+
+                if (await _repository.SaveChangesAsync())
+                {
+                    return _mapper.Map<SpeakerModel>(oldSpeaker);
+                }
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
+            }
+
+            return BadRequest();
+        }
     }
 }
